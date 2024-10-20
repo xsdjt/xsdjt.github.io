@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xsdjt.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="网上找的关于讲解设备树的资料">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学会使用设备树（Device Tree）">
+<meta property="og:url" content="https://xsdjt.github.io/2021/11/01/ComputerScience/2021/11/devicetree/index.html">
+<meta property="og:site_name" content="随笔">
+<meta property="og:description" content="网上找的关于讲解设备树的资料">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-11-01T23:30:00.000Z">
+<meta property="article:modified_time" content="2024-10-20T23:20:49.397Z">
+<meta property="article:author" content="周国强">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="C">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://xsdjt.github.io/2021/11/01/ComputerScience/2021/11/devicetree/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>学会使用设备树（Device Tree） | 随笔</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">随笔</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录，分享，然后享受生活。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-train fa-fw"></i>推荐链接</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xsdjt.github.io/2021/11/01/ComputerScience/2021/11/devicetree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/uparrow.jpg">
+      <meta itemprop="name" content="周国强">
+      <meta itemprop="description" content="勤学勤思出真知">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随笔">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          学会使用设备树（Device Tree）<a href="https://github.com/xsdjt/hexo-blog/tree/main/source/_posts/ComputerScience/2021/11/devicetree.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-01 23:30:00" itemprop="dateCreated datePublished" datetime="2021-11-01T23:30:00+00:00">2021-11-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E4%B8%8E%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">计算机科学与技术</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E4%B8%8E%E6%8A%80%E6%9C%AF/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">网上找的关于讲解设备树的资料</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><a target="_blank" rel="noopener" href="https://elinux.org/Device_Tree_Reference">Device Tree Reference</a> </p>
+<p><a target="_blank" rel="noopener" href="https://elinux.org/Device_Tree_Usage">Device Tree Usage</a> </p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/caihaitao2000/article/details/83960823">设备树规范翻译</a> </p>
+<p><a target="_blank" rel="noopener" href="https://www.docin.com/p-1850850229.html">Power_ePAPR_APPROVED_v1.1 参考2.2.2节</a> </p>
+<p><a target="_blank" rel="noopener" href="http://wiki.100ask.org/Linux_devicetree">百问网 Linux_devicetree</a> </p>
+<h1 id="原文摘录与个人理解"><a href="#原文摘录与个人理解" class="headerlink" title="原文摘录与个人理解"></a>原文摘录与个人理解</h1><p>设备树将外围设备抽象成节点，且除了根节点 <code>/</code> 没有父节点外，其余节点都有且只有一个父节点。节点的命名应当反映设备的类型而不是特定的型号。</p>
+<p>设备树的基本结构是每个节点后用花括号包裹好节点的属性以及子节点，其中的属性以键值对 <code>键=值</code> 的形式表示且以分号隔离。</p>
+<p>键值对中的值在设备树中有几种基本表示形式：</p>
+<ul>
+<li>文本形式用双引号包裹</li>
+<li>32位无符号整形用尖括号包裹，且尖括号内可以有多个以空格分隔的整形数</li>
+<li>二进制数据使用方括号包裹，且括号内可以有多个以空格分隔的数，数默认为二进制，加不加前缀 <code>0x</code> 都一样</li>
+<li>上述三种类型也可以用逗号分隔赋值给某个混合键</li>
+<li>也可以使用逗号分隔文本形式的数据创建字符串列表</li>
+</ul>
+<figure class="highlight plain"><figcaption><span>tree</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#address-cells &#x3D; &lt;1&gt;</span><br><span class="line">#size-cells &#x3D; &lt;0&gt;;</span><br></pre></td></tr></table></figure>
+<p>这两个参数用来解释子节点中可编址设备的 <code>reg = &lt;地址1 长度1 [地址2 长度2] [地址3 长度3] ... &gt;</code> 。</p>
+<p>担心以后链接失效，这里把原文搬了过来，然后看到CSDN上有一篇翻译 <a target="_blank" rel="noopener" href="https://blog.csdn.net/eydwyz/article/details/72285896">设备树使用手册</a> </p>
+<h1 id="Device-Tree-Usage-原文"><a href="#Device-Tree-Usage-原文" class="headerlink" title="Device Tree Usage 原文"></a>Device Tree Usage 原文</h1><p> <a target="_blank" rel="noopener" href="https://elinux.org/Device_Tree"> Top Device Tree page</a></p>
+<p> (This page was previously located at htttp://devicetree.org/Device_Tree_Usage)</p>
+<p>This page walks through how to write a device tree for a new  machine.  It is intended to provide an overview of device tree concepts  and how they are used to describe a machine.</p>
+<p>For a full technical description of device tree data format, refer to the <a target="_blank" rel="noopener" href="https://elinux.org/images/c/cf/Power_ePAPR_APPROVED_v1.1.pdf">ePAPR v1.1</a> specification.  The ePAPR specification covers a lot more detail than  the basic topics covered on this page, please refer to it for more  advanced usage that isn’t covered by this page. <a target="_blank" rel="noopener" href="https://elinux.org/Device_tree_future#Devicetree_Specification"> The ePAPR is currently being updated</a> with a new name of Devicetree Specification Documentation.</p>
+<h2 id="Basic-Data-Format"><a href="#Basic-Data-Format" class="headerlink" title="Basic Data Format"></a>Basic Data Format</h2><p>The device tree is a simple tree structure of nodes and properties.   Properties are key-value pairs, and node may contain both properties and child nodes.  For example, the following is a simple tree in the <a target="_blank" rel="noopener" href="https://elinux.org/index.php?title=Definitions&amp;action=edit&amp;redlink=1"> .dts</a> format:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;dts-v1&#x2F;;</span><br><span class="line"></span><br><span class="line">&#x2F; &#123;</span><br><span class="line">    node1 &#123;</span><br><span class="line">        a-string-property &#x3D; &quot;A string&quot;;</span><br><span class="line">        a-string-list-property &#x3D; &quot;first string&quot;, &quot;second string&quot;;</span><br><span class="line">        &#x2F;&#x2F; hex is implied in byte arrays. no &#39;0x&#39; prefix is required</span><br><span class="line">        a-byte-data-property &#x3D; [01 23 34 56];</span><br><span class="line">        child-node1 &#123;</span><br><span class="line">            first-child-property;</span><br><span class="line">            second-child-property &#x3D; &lt;1&gt;;</span><br><span class="line">            a-string-property &#x3D; &quot;Hello, world&quot;;</span><br><span class="line">        &#125;;</span><br><span class="line">        child-node2 &#123;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">    node2 &#123;</span><br><span class="line">        an-empty-property;</span><br><span class="line">        a-cell-property &#x3D; &lt;1 2 3 4&gt;; &#x2F;* each number (cell) is a uint32 *&#x2F;</span><br><span class="line">        child-node1 &#123;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>This tree is obviously pretty useless because it doesn’t describe  anything, but it does show the structure of nodes and properties.  There is:</p>
+<ul>
+<li>a single root node: “<code>/</code>“</li>
+<li>a couple of child nodes: “<code>node1</code>“ and “<code>node2</code>“</li>
+<li>a couple of children for node1: “<code>child-node1</code>“ and “<code>child-node2</code>“</li>
+<li>a bunch of properties scattered through the tree.</li>
+</ul>
+<p>Properties are simple key-value pairs where the value can either be  empty or contain an arbitrary byte stream.  While data types are not  encoded into the data structure, there are a few fundamental data  representations that can be expressed in a device tree source file.</p>
+<ul>
+<li>Text strings (null terminated) are represented with double quotes:<ul>
+<li><code>string-property = &quot;a string&quot;;</code></li>
+</ul>
+</li>
+<li>‘Cells’ are 32 bit unsigned integers delimited by angle brackets:<ul>
+<li><code>cell-property = &lt;0xbeef 123 0xabcd1234&gt;;</code></li>
+</ul>
+</li>
+<li>Binary data is delimited with square brackets:<ul>
+<li><code>binary-property = [0x01 0x23 0x45 0x67];</code></li>
+</ul>
+</li>
+<li>Data of differing representations can be concatenated together using a comma:<ul>
+<li><code>mixed-property = &quot;a string&quot;, [0x01 0x23 0x45 0x67], &lt;0x12345678&gt;;</code></li>
+</ul>
+</li>
+<li>Commas are also used to create lists of strings:<ul>
+<li><code>string-list = &quot;red fish&quot;, &quot;blue fish&quot;;</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="Basic-Concepts"><a href="#Basic-Concepts" class="headerlink" title="Basic Concepts"></a>Basic Concepts</h2><p>To understand how the device tree is used, we will start with a  simple machine and build up a device tree to describe it step by step.</p>
+<h3 id="Sample-Machine"><a href="#Sample-Machine" class="headerlink" title="Sample Machine"></a>Sample Machine</h3><p>Consider the following imaginary machine (loosely based on ARM Versatile), manufactured by “Acme” and named “Coyote’s Revenge”:</p>
+<ul>
+<li>One 32bit ARM CPU</li>
+<li>processor local bus attached to memory mapped serial port, spi bus  controller, i2c controller, interrupt controller, and external bus  bridge</li>
+<li>256MB of SDRAM based at 0</li>
+<li>2 Serial ports based at 0x101F1000 and 0x101F2000</li>
+<li>GPIO controller based at 0x101F3000</li>
+<li>SPI controller based at 0x10170000 with following devices<ul>
+<li>MMC slot with SS pin attached to GPIO #1</li>
+</ul>
+</li>
+<li>External bus bridge with following devices<ul>
+<li>SMC SMC91111 Ethernet device attached to external bus based at 0x10100000</li>
+<li>i2c controller based at 0x10160000 with following devices<ul>
+<li>Maxim DS1338 real time clock.  Responds to slave address 1101000 (0x58)</li>
+</ul>
+</li>
+<li>64MB of NOR flash based at 0x30000000</li>
+</ul>
+</li>
+</ul>
+<h3 id="Initial-structure"><a href="#Initial-structure" class="headerlink" title="Initial structure"></a>Initial structure</h3><p>The first step is to lay down a skeleton structure for the machine.   This is the bare minimum structure required for a valid device tree.  At this stage you want to uniquely identify the machine.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;dts-v1&#x2F;;</span><br><span class="line"></span><br><span class="line">&#x2F; &#123;</span><br><span class="line">    compatible &#x3D; &quot;acme,coyotes-revenge&quot;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>compatible</code> specifies the name of the system.  It  contains a string in the form “<manufacturer>,<model>.  It  is important to specify the exact device, and to include the  manufacturer name to avoid namespace collisions.  Since the operating  system will use the <code>compatible</code> value to make decisions about how to run on the machine, it is very important to put correct data into this property.</p>
+<p>Theoretically, compatible is all the data an OS needs to uniquely identify a machine.  If all the machine details are hard coded, then  the OS could look specifically for “acme,coyotes-revenge” in the top  level <code>compatible</code> property.</p>
+<h3 id="CPUs"><a href="#CPUs" class="headerlink" title="CPUs"></a>CPUs</h3><p>Next step is to describe for each of the CPUs.  A container node  named “cpus” is added with a child node for each CPU.  In this case the  system is a dual-core Cortex A9 system from ARM.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;dts-v1&#x2F;;</span><br><span class="line"></span><br><span class="line">&#x2F; &#123;</span><br><span class="line">    compatible &#x3D; &quot;acme,coyotes-revenge&quot;;</span><br><span class="line"></span><br><span class="line">    cpus &#123;</span><br><span class="line">        cpu@0 &#123;</span><br><span class="line">            compatible &#x3D; &quot;arm,cortex-a9&quot;;</span><br><span class="line">        &#125;;</span><br><span class="line">        cpu@1 &#123;</span><br><span class="line">            compatible &#x3D; &quot;arm,cortex-a9&quot;;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>The compatible property in each cpu node is a string that specifies the exact cpu model in the form <code>&lt;manufacturer&gt;,&lt;model&gt;</code>, just like the compatible property at the top level.</p>
+<p>More properties will be added to the cpu nodes later, but we first need to talk about more of the basic concepts.</p>
+<h3 id="Node-Names"><a href="#Node-Names" class="headerlink" title="Node Names"></a>Node Names</h3><p>It is worth taking a moment to talk about naming conventions.  Every node must have a name in the form <code>&lt;name&gt;[@&lt;unit-address&gt;</code>].</p>
+<p><code>&lt;name&gt;</code> is a simple ascii string and can be up  to 31 characters in length.  In general, nodes are named according to  what kind of device it represents.  ie. A node for a 3com Ethernet  adapter would be use the name <code>ethernet</code>, not <code>3com509</code>.</p>
+<p>The unit-address is included if the node describes a device with  an address.  In general, the unit address is the primary address used to access the device, and is listed in the node’s <code>reg</code> property.  We’ll cover the reg property later in this document.</p>
+<p>Sibling nodes must be uniquely named, but it is normal for more  than one node to use the same generic name so long as the address is  different (ie, serial@101f1000 &amp; serial@101f2000).</p>
+<p>See section 2.2.1 of the ePAPR spec for full details about node naming.</p>
+<h3 id="Devices"><a href="#Devices" class="headerlink" title="Devices"></a>Devices</h3><p>Every device in the system is represented by a device tree node.  The next step is to populate the tree with a node for each of the devices.  For now, the new nodes will be left empty until we can talk about how  address ranges and irqs are handled.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;dts-v1&#x2F;;</span><br><span class="line"></span><br><span class="line">&#x2F; &#123;</span><br><span class="line">    compatible &#x3D; &quot;acme,coyotes-revenge&quot;;</span><br><span class="line"></span><br><span class="line">    cpus &#123;</span><br><span class="line">        cpu@0 &#123;</span><br><span class="line">            compatible &#x3D; &quot;arm,cortex-a9&quot;;</span><br><span class="line">        &#125;;</span><br><span class="line">        cpu@1 &#123;</span><br><span class="line">            compatible &#x3D; &quot;arm,cortex-a9&quot;;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    serial@101F0000 &#123;</span><br><span class="line">        compatible &#x3D; &quot;arm,pl011&quot;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    serial@101F2000 &#123;</span><br><span class="line">        compatible &#x3D; &quot;arm,pl011&quot;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    gpio@101F3000 &#123;</span><br><span class="line">        compatible &#x3D; &quot;arm,pl061&quot;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    interrupt-controller@10140000 &#123;</span><br><span class="line">        compatible &#x3D; &quot;arm,pl190&quot;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    spi@10115000 &#123;</span><br><span class="line">        compatible &#x3D; &quot;arm,pl022&quot;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    external-bus &#123;</span><br><span class="line">        ethernet@0,0 &#123;</span><br><span class="line">            compatible &#x3D; &quot;smc,smc91c111&quot;;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        i2c@1,0 &#123;</span><br><span class="line">            compatible &#x3D; &quot;acme,a1234-i2c-bus&quot;;</span><br><span class="line">            rtc@58 &#123;</span><br><span class="line">                compatible &#x3D; &quot;maxim,ds1338&quot;;</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        flash@2,0 &#123;</span><br><span class="line">            compatible &#x3D; &quot;samsung,k8f1315ebm&quot;, &quot;cfi-flash&quot;;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>In this tree, a node has been added for each device in the system,  and the hierarchy reflects the how devices are connected to the system.  ie. devices on the extern bus are children of the external bus node,  and i2c devices are children of the i2c bus controller node.  In  general, the hierarchy represents the view of the system from the  perspective of the CPU.</p>
+<p>This tree isn’t valid at this point.  It is missing information  about connections between devices.  That data will be added later.</p>
+<p>Some things to notice in this tree:</p>
+<ul>
+<li>Every device node has a <code>compatible</code> property.</li>
+<li>The flash node has 2 strings in the compatible property.  Read on to the next section to learn why.</li>
+<li>As mentioned earlier, node names reflect the type of device, not the particular model.  See section 2.2.2 of the ePAPR spec for a list of  defined generic node names that should be used wherever possible.</li>
+</ul>
+<h3 id="Understanding-the-compatible-Property"><a href="#Understanding-the-compatible-Property" class="headerlink" title="Understanding the compatible Property"></a>Understanding the <code>compatible</code> Property</h3><p>Every node in the tree that represents a device is required to have the <code>compatible</code> property.  <code>compatible</code> is the key an operating system uses to decide which device driver to bind to a device.</p>
+<p><code>compatible</code> is a list of strings.  The first string in the list specifies the exact device that the node represents in the form <code>&quot;&lt;manufacturer&gt;,&lt;model&gt;&quot;</code>.  The following strings represent other devices that the device is <em>compatible</em> with.</p>
+<p>For example, the Freescale MPC8349 System on Chip (SoC) has a  serial device which implements the National Semiconductor ns16550  register interface.  The compatible property for the MPC8349 serial  device should therefore be: <code>compatible = &quot;fsl,mpc8349-uart&quot;, &quot;ns16550&quot;</code>.  In this case, <code>fsl,mpc8349-uart</code> specifies the exact device, and <code>ns16550</code> states that it is register-level compatible with a National Semiconductor 16550 UART.</p>
+<p>Note: <code>ns16550</code> doesn’t have a manufacturer prefix  purely for historical reasons.  All new compatible values should use the manufacturer prefix.</p>
+<p>This practice allows existing device drivers to be bound to a newer device, while still uniquely identifying the exact hardware.</p>
+<p>Warning: Don’t use <em>wildcard</em> compatible values, like  “fsl,mpc83xx-uart” or similar.  Silicon vendors will invariably make a  change that breaks your wildcard assumptions the moment it is too late  to change it.  Instead, choose a specific silicon implementations and  make all subsequent silicon <em>compatible</em> with it.</p>
+<h2 id="How-Addressing-Works"><a href="#How-Addressing-Works" class="headerlink" title="How Addressing Works"></a>How Addressing Works</h2><p>Devices that are addressable use the following properties to encode address information into the device tree:</p>
+<ul>
+<li><code>reg</code></li>
+<li><code>#address-cells</code></li>
+<li><code>#size-cells</code></li>
+</ul>
+<p>Each addressable device gets a <code>reg</code> which is a list of tuples in the form <code>reg = &lt;address1 length1 [address2 length2] [address3 length3] ... &gt;</code>.  Each tuple represents an address range used by the device.  Each  address value is a list of one or more 32 bit integers called <em>cells</em>.  Similarly, the length value can either be a list of cells, or empty.</p>
+<p>Since both the address and length fields are variable of variable size, the <code>#address-cells</code> and <code>#size-cells</code> properties in the parent node are used to state how many cells are in  each field.  Or in other words, interpreting a reg property correctly  requires the parent node’s #address-cells and #size-cells values.  To  see how this all works, lets add the addressing properties to the sample device tree, starting with the CPUs.</p>
+<h3 id="CPU-addressing"><a href="#CPU-addressing" class="headerlink" title="CPU addressing"></a>CPU addressing</h3><p>The CPU nodes represent the simplest case when talking about  addressing.  Each CPU is assigned a single unique ID, and there is no  size associated with CPU ids.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">cpus &#123;</span><br><span class="line">    #address-cells &#x3D; &lt;1&gt;;</span><br><span class="line">    #size-cells &#x3D; &lt;0&gt;;</span><br><span class="line">    cpu@0 &#123;</span><br><span class="line">        compatible &#x3D; &quot;arm,cortex-a9&quot;;</span><br><span class="line">        reg &#x3D; &lt;0&gt;;</span><br><span class="line">    &#125;;</span><br><span class="line">    cpu@1 &#123;</span><br><span class="line">        compatible &#x3D; &quot;arm,cortex-a9&quot;;</span><br><span class="line">        reg &#x3D; &lt;1&gt;;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>In the <code>cpus</code> node, <code>#address-cells</code> is set to 1, and <code>#size-cells</code> is set to 0.  This means that child <code>reg</code> values are a single uint32 that represent the address with no size  field.  In this case, the two cpus are assigned addresses 0 and 1.  <code>#size-cells</code> is 0 for cpu nodes because each cpu is only assigned a single address.</p>
+<p>You’ll also notice that the <code>reg</code> value matches the value in the node name.  By convention, if a node has a <code>reg</code> property, then the node name must include the unit-address, which is the first address value in the <code>reg</code> property.</p>
+<h3 id="Memory-Mapped-Devices"><a href="#Memory-Mapped-Devices" class="headerlink" title="Memory Mapped Devices"></a>Memory Mapped Devices</h3><p>Instead of single address values like found in the cpu nodes, a  memory mapped device is assigned a range of addresses that it will  respond to.  <code>#size-cells</code> is used to state how large the length field is in each child <code>reg</code> tuple.  In the following example, each address value is 1 cell (32  bits), and each length value is also 1 cell, which is typical on 32 bit  systems.  64 bit machines may use a value of 2 for #address-cells and  #size-cells to get 64 bit addressing in the device tree.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;dts-v1&#x2F;;</span><br><span class="line"></span><br><span class="line">&#x2F; &#123;</span><br><span class="line">    #address-cells &#x3D; &lt;1&gt;;</span><br><span class="line">    #size-cells &#x3D; &lt;1&gt;;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    serial@101f0000 &#123;</span><br><span class="line">        compatible &#x3D; &quot;arm,pl011&quot;;</span><br><span class="line">        reg &#x3D; &lt;0x101f0000 0x1000 &gt;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    serial@101f2000 &#123;</span><br><span class="line">        compatible &#x3D; &quot;arm,pl011&quot;;</span><br><span class="line">        reg &#x3D; &lt;0x101f2000 0x1000 &gt;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    gpio@101f3000 &#123;</span><br><span class="line">        compatible &#x3D; &quot;arm,pl061&quot;;</span><br><span class="line">        reg &#x3D; &lt;0x101f3000 0x1000</span><br><span class="line">               0x101f4000 0x0010&gt;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    interrupt-controller@10140000 &#123;</span><br><span class="line">        compatible &#x3D; &quot;arm,pl190&quot;;</span><br><span class="line">        reg &#x3D; &lt;0x10140000 0x1000 &gt;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    spi@10115000 &#123;</span><br><span class="line">        compatible &#x3D; &quot;arm,pl022&quot;;</span><br><span class="line">        reg &#x3D; &lt;0x10115000 0x1000 &gt;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Each device is assigned a base address, and the size of the region it is assigned.  The GPIO device address in this example is assigned two  address ranges; 0x101f3000…0x101f3fff and 0x101f4000..0x101f400f.</p>
+<p>Some devices live on a bus with a different addressing scheme.   For example, a device can be attached to an external bus with discrete  chip select lines.  Since each parent node defines the addressing domain for its children, the address mapping can be chosen to best describe  the system.  The code below show address assignment for devices attached to the external bus with the chip select number encoded into the  address.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">external-bus &#123;</span><br><span class="line">    #address-cells &#x3D; &lt;2&gt;;</span><br><span class="line">    #size-cells &#x3D; &lt;1&gt;;</span><br><span class="line"></span><br><span class="line">    ethernet@0,0 &#123;</span><br><span class="line">        compatible &#x3D; &quot;smc,smc91c111&quot;;</span><br><span class="line">        reg &#x3D; &lt;0 0 0x1000&gt;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    i2c@1,0 &#123;</span><br><span class="line">        compatible &#x3D; &quot;acme,a1234-i2c-bus&quot;;</span><br><span class="line">        reg &#x3D; &lt;1 0 0x1000&gt;;</span><br><span class="line">        rtc@58 &#123;</span><br><span class="line">            compatible &#x3D; &quot;maxim,ds1338&quot;;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    flash@2,0 &#123;</span><br><span class="line">        compatible &#x3D; &quot;samsung,k8f1315ebm&quot;, &quot;cfi-flash&quot;;</span><br><span class="line">        reg &#x3D; &lt;2 0 0x4000000&gt;;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>The <code>external-bus</code> uses 2 cells for the address value; one for the chip select number, and one for the offset from the base of the chip select.  The length field remains as a single cell since only the  offset portion of the address needs to have a range.  So, in this  example, each <code>reg</code> entry contains 3 cells; the chipselect number, the offset, and the length.</p>
+<p>Since the address domains are contained to a node and its  children, parent nodes are free to define whatever addressing scheme  makes sense for the bus.  Nodes outside of the immediate parent and  child nodes do not normally have to care about the local addressing  domain, and addresses have to be mapped to get from one domain to  another.</p>
+<h3 id="Non-Memory-Mapped-Devices"><a href="#Non-Memory-Mapped-Devices" class="headerlink" title="Non Memory Mapped Devices"></a>Non Memory Mapped Devices</h3><p>Other devices are not memory mapped on the processor bus.  They can  have address ranges, but they are not directly accessible by the CPU.   Instead the parent device’s driver would perform indirect access on  behalf of the CPU.</p>
+<p>To take the example of i2c devices, each device is assigned an  address, but there is no length or range associated with it.  This looks much the same as CPU address assignments.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">i2c@1,0 &#123;</span><br><span class="line">    compatible &#x3D; &quot;acme,a1234-i2c-bus&quot;;</span><br><span class="line">    #address-cells &#x3D; &lt;1&gt;;</span><br><span class="line">    #size-cells &#x3D; &lt;0&gt;;</span><br><span class="line">    reg &#x3D; &lt;1 0 0x1000&gt;;</span><br><span class="line">    rtc@58 &#123;</span><br><span class="line">        compatible &#x3D; &quot;maxim,ds1338&quot;;</span><br><span class="line">        reg &#x3D; &lt;58&gt;;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="Ranges-Address-Translation"><a href="#Ranges-Address-Translation" class="headerlink" title="Ranges (Address Translation)"></a>Ranges (Address Translation)</h3><p>We’ve talked about how to assign addresses to devices, but at this  point those addresses are only local to the device node.  It doesn’t yet describe how to map from those address to an address that the CPU can  use.</p>
+<p>The root node always describes the CPU’s view of the address  space.  Child nodes of the root are already using the CPU’s address  domain, and so do not need any explicit mapping.  For example, the  serial@101f0000 device is directly assigned the address 0x101f0000.</p>
+<p>Nodes that are not direct children of the root do not use the  CPU’s address domain.  In order to get a memory mapped address the  device tree must specify how to translate addresses from one domain to  another.  The <code>ranges</code> property is used for this purpose.</p>
+<p>Here is the sample device tree with the ranges property added.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;dts-v1&#x2F;;</span><br><span class="line"></span><br><span class="line">&#x2F; &#123;</span><br><span class="line">    compatible &#x3D; &quot;acme,coyotes-revenge&quot;;</span><br><span class="line">    #address-cells &#x3D; &lt;1&gt;;</span><br><span class="line">    #size-cells &#x3D; &lt;1&gt;;</span><br><span class="line">    ...</span><br><span class="line">    external-bus &#123;</span><br><span class="line">        #address-cells &#x3D; &lt;2&gt;;</span><br><span class="line">        #size-cells &#x3D; &lt;1&gt;;</span><br><span class="line">        ranges &#x3D; &lt;0 0  0x10100000   0x10000     &#x2F;&#x2F; Chipselect 1, Ethernet</span><br><span class="line">                  1 0  0x10160000   0x10000     &#x2F;&#x2F; Chipselect 2, i2c controller</span><br><span class="line">                  2 0  0x30000000   0x1000000&gt;; &#x2F;&#x2F; Chipselect 3, NOR Flash</span><br><span class="line"></span><br><span class="line">        ethernet@0,0 &#123;</span><br><span class="line">            compatible &#x3D; &quot;smc,smc91c111&quot;;</span><br><span class="line">            reg &#x3D; &lt;0 0 0x1000&gt;;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        i2c@1,0 &#123;</span><br><span class="line">            compatible &#x3D; &quot;acme,a1234-i2c-bus&quot;;</span><br><span class="line">            #address-cells &#x3D; &lt;1&gt;;</span><br><span class="line">            #size-cells &#x3D; &lt;0&gt;;</span><br><span class="line">            reg &#x3D; &lt;1 0 0x1000&gt;;</span><br><span class="line">            rtc@58 &#123;</span><br><span class="line">                compatible &#x3D; &quot;maxim,ds1338&quot;;</span><br><span class="line">                reg &#x3D; &lt;58&gt;;</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        flash@2,0 &#123;</span><br><span class="line">            compatible &#x3D; &quot;samsung,k8f1315ebm&quot;, &quot;cfi-flash&quot;;</span><br><span class="line">            reg &#x3D; &lt;2 0 0x4000000&gt;;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>ranges</code> is a list of address translations.  Each entry in the ranges table is a tuple containing the child address, the parent  address, and the size of the region in the child address space.  The  size of each field is determined by taking the child’s <code>#address-cells</code> value, the parent’s <code>#address-cells</code> value, and the child’s <code>#size-cells</code> value.  For the external bus in our example, the child address is 2  cells, the parent address is 1 cell, and the size is also 1 cell.  Three ranges are being translated:</p>
+<ul>
+<li>Offset 0 from chip select 0 is mapped to address range 0x10100000..0x1010ffff</li>
+<li>Offset 0 from chip select 1 is mapped to address range 0x10160000..0x1016ffff</li>
+<li>Offset 0 from chip select 2 is mapped to address range 0x30000000..0x30ffffff</li>
+</ul>
+<p>Alternately, if the parent and child address spaces are identical, then a node can instead add an empty <code>ranges</code> property.  The presence of an empty ranges property means addresses in  the child address space are mapped 1:1 onto the parent address space.</p>
+<p>You might ask why address translation is used at all when it  could all be written with 1:1 mapping.  Some busses (like PCI) have  entirely different address spaces whose details need to be exposed to  the operating system.  Others have DMA engines which need to know the  real address on the bus.  Sometimes devices need to be grouped together  because they all share the same software programmable physical address  mapping.  Whether or not 1:1 mappings should be used depends a lot on  the information needed by the Operating system, and on the hardware  design.</p>
+<p>You should also notice that there is no <code>ranges</code>  property in the i2c@1,0 node.  The reason for this is that unlike the  external bus, devices on the i2c bus are not memory mapped on the CPU’s  address domain.  Instead, the CPU indirectly accesses the rtc@58 device  via the i2c@1,0 device.  The lack of a <code>ranges</code> property means that a device cannot be directly accessed by any device other than it’s parent.</p>
+<h2 id="How-Interrupts-Work"><a href="#How-Interrupts-Work" class="headerlink" title="How Interrupts Work"></a>How Interrupts Work</h2><p>Unlike address range translation which follows the natural structure  of the tree, Interrupt signals can originate from and terminate on any  device in a machine.  Unlike device addressing which is naturally  expressed in the device tree, interrupt signals are expressed as links  between nodes independent of the tree.  Four properties are used to  describe interrupt connections:</p>
+<ul>
+<li><code>interrupt-controller</code> - An empty property declaring a node as a device that receives interrupt signals</li>
+<li><code>#interrupt-cells</code> - This is a property of the interrupt controller node.  It states how many cells are in an <em>interrupt specifier</em> for this interrupt controller (Similar to <code>#address-cells</code> and <code>#size-cells</code>).</li>
+<li><code>interrupt-parent</code> - A property of a device node containing a <em>phandle</em> to the interrupt controller that it is attached to.  Nodes that do not  have an interrupt-parent property can also inherit the property from  their parent node.</li>
+<li><code>interrupts</code> - A property of a device node containing a list of <em>interrupt specifiers</em>, one for each interrupt output signal on the device.</li>
+</ul>
+<p>An <em>interrupt specifier</em> is one or more cells of data (as  specified by #interrupt-cells) that specifies which interrupt input the  device is attached to.  Most devices only have a single interrupt output as shown in the example below, but it is possible to have multiple  interrupt outputs on a device.  The meaning of an interrupt specifier  depends entirely on the binding for the interrupt controller device.   Each interrupt controller can decide how many cells it need to uniquely  define an interrupt input.</p>
+<p>The following code adds interrupt connections to our Coyote’s Revenge example machine:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;dts-v1&#x2F;;</span><br><span class="line"></span><br><span class="line">&#x2F; &#123;</span><br><span class="line">    compatible &#x3D; &quot;acme,coyotes-revenge&quot;;</span><br><span class="line">    #address-cells &#x3D; &lt;1&gt;;</span><br><span class="line">    #size-cells &#x3D; &lt;1&gt;;</span><br><span class="line">    interrupt-parent &#x3D; &lt;&amp;intc&gt;;</span><br><span class="line"></span><br><span class="line">    cpus &#123;</span><br><span class="line">        #address-cells &#x3D; &lt;1&gt;;</span><br><span class="line">        #size-cells &#x3D; &lt;0&gt;;</span><br><span class="line">        cpu@0 &#123;</span><br><span class="line">            compatible &#x3D; &quot;arm,cortex-a9&quot;;</span><br><span class="line">            reg &#x3D; &lt;0&gt;;</span><br><span class="line">        &#125;;</span><br><span class="line">        cpu@1 &#123;</span><br><span class="line">            compatible &#x3D; &quot;arm,cortex-a9&quot;;</span><br><span class="line">            reg &#x3D; &lt;1&gt;;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    serial@101f0000 &#123;</span><br><span class="line">        compatible &#x3D; &quot;arm,pl011&quot;;</span><br><span class="line">        reg &#x3D; &lt;0x101f0000 0x1000 &gt;;</span><br><span class="line">        interrupts &#x3D; &lt; 1 0 &gt;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    serial@101f2000 &#123;</span><br><span class="line">        compatible &#x3D; &quot;arm,pl011&quot;;</span><br><span class="line">        reg &#x3D; &lt;0x101f2000 0x1000 &gt;;</span><br><span class="line">        interrupts &#x3D; &lt; 2 0 &gt;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    gpio@101f3000 &#123;</span><br><span class="line">        compatible &#x3D; &quot;arm,pl061&quot;;</span><br><span class="line">        reg &#x3D; &lt;0x101f3000 0x1000</span><br><span class="line">               0x101f4000 0x0010&gt;;</span><br><span class="line">        interrupts &#x3D; &lt; 3 0 &gt;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    intc: interrupt-controller@10140000 &#123;</span><br><span class="line">        compatible &#x3D; &quot;arm,pl190&quot;;</span><br><span class="line">        reg &#x3D; &lt;0x10140000 0x1000 &gt;;</span><br><span class="line">        interrupt-controller;</span><br><span class="line">        #interrupt-cells &#x3D; &lt;2&gt;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    spi@10115000 &#123;</span><br><span class="line">        compatible &#x3D; &quot;arm,pl022&quot;;</span><br><span class="line">        reg &#x3D; &lt;0x10115000 0x1000 &gt;;</span><br><span class="line">        interrupts &#x3D; &lt; 4 0 &gt;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    external-bus &#123;</span><br><span class="line">        #address-cells &#x3D; &lt;2&gt;;</span><br><span class="line">        #size-cells &#x3D; &lt;1&gt;;</span><br><span class="line">        ranges &#x3D; &lt;0 0  0x10100000   0x10000     &#x2F;&#x2F; Chipselect 1, Ethernet</span><br><span class="line">                  1 0  0x10160000   0x10000     &#x2F;&#x2F; Chipselect 2, i2c controller</span><br><span class="line">                  2 0  0x30000000   0x1000000&gt;; &#x2F;&#x2F; Chipselect 3, NOR Flash</span><br><span class="line"></span><br><span class="line">        ethernet@0,0 &#123;</span><br><span class="line">            compatible &#x3D; &quot;smc,smc91c111&quot;;</span><br><span class="line">            reg &#x3D; &lt;0 0 0x1000&gt;;</span><br><span class="line">            interrupts &#x3D; &lt; 5 2 &gt;;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        i2c@1,0 &#123;</span><br><span class="line">            compatible &#x3D; &quot;acme,a1234-i2c-bus&quot;;</span><br><span class="line">            #address-cells &#x3D; &lt;1&gt;;</span><br><span class="line">            #size-cells &#x3D; &lt;0&gt;;</span><br><span class="line">            reg &#x3D; &lt;1 0 0x1000&gt;;</span><br><span class="line">            interrupts &#x3D; &lt; 6 2 &gt;;</span><br><span class="line">            rtc@58 &#123;</span><br><span class="line">                compatible &#x3D; &quot;maxim,ds1338&quot;;</span><br><span class="line">                reg &#x3D; &lt;58&gt;;</span><br><span class="line">                interrupts &#x3D; &lt; 7 3 &gt;;</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        flash@2,0 &#123;</span><br><span class="line">            compatible &#x3D; &quot;samsung,k8f1315ebm&quot;, &quot;cfi-flash&quot;;</span><br><span class="line">            reg &#x3D; &lt;2 0 0x4000000&gt;;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Some things to notice:</p>
+<ul>
+<li>The machine has a single interrupt controller, interrupt-controller@10140000.</li>
+<li>The label ‘intc:’ has been added to the interrupt controller node,  and the label was used to assign a phandle to the interrupt-parent  property in the root node.  This interrupt-parent value becomes the  default for the system because all child nodes inherit it unless it is  explicitly overridden.</li>
+<li>Each device uses an interrupt property to specify a different interrupt input line.</li>
+<li>#interrupt-cells is 2, so each interrupt specifier has 2 cells.   This example uses the common pattern of using the first cell to encode  the interrupt line number, and the second cell to encode flags such as  active high vs. active low, or edge vs. level sensitive.  For any given  interrupt controller, refer to the controller’s binding documentation to learn how the specifier is encoded.</li>
+</ul>
+<h2 id="Device-Specific-Data"><a href="#Device-Specific-Data" class="headerlink" title="Device Specific Data"></a>Device Specific Data</h2><p>Beyond the common properties, arbitrary properties and child nodes  can be added to nodes.  Any data needed by the operating system can be  added as long as some rules are followed.</p>
+<p>First, new device-specific property names should use a  manufacture prefix so that they don’t conflict with existing standard  property names.</p>
+<p>Second, the meaning of the properties and child nodes must be  documented in a binding so that a device driver author knows how to  interpret the data.  A binding documents what a particular compatible  value means, what properties it should have, what child nodes it might  have, and what device it represents.  Each unique <code>compatible</code> value should have its own binding (or claim compatibility with another  compatible value).  Bindings for new devices are documented in this  wiki.  See the <a target="_blank" rel="noopener" href="https://elinux.org/Main_Page">Main Page</a> for a description of the documentation format and review process.</p>
+<p>Third, post new bindings for review on the  devicetree-discuss@lists.ozlabs.org mailing list.  Reviewing new  bindings catches a lot of common mistakes that will cause problems in  the future.</p>
+<h2 id="Special-Nodes"><a href="#Special-Nodes" class="headerlink" title="Special Nodes"></a>Special Nodes</h2><h3 id="aliases-Node"><a href="#aliases-Node" class="headerlink" title="aliases Node"></a><code>aliases</code> Node</h3><p>A specific node is normally referenced by the full path, like <code>/external-bus/ethernet@0,0</code>, but that gets cumbersome when what a user really wants to know is, “which device is eth0?”  The <code>aliases</code> node can be used to assign a short <em>alias</em> to a full device path.  For example:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">aliases &#123;</span><br><span class="line">    ethernet0 &#x3D; &amp;eth0;</span><br><span class="line">    serial0 &#x3D; &amp;serial0;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>The operating system is welcome to use the aliases when assigning an identifier to a device.</p>
+<p>You’ll notice a new syntax used here.  The <code>*property* = &amp;*label*;</code> syntax assigns the full node path referenced by the label as a string property.  This is different from the <code>*phandle* = &lt; &amp;*label* &gt;;</code> form used earlier which inserts a phandle value into a cell.</p>
+<h3 id="chosen-Node"><a href="#chosen-Node" class="headerlink" title="chosen Node"></a><code>chosen</code> Node</h3><p>The <code>chosen</code> node doesn’t represent a real device, but  serves as a place for passing data between firmware and the operating  system, like boot arguments.  Data in the chosen node does not represent the hardware.  Typically the chosen node is left empty in .dts source  files and populated at boot time.</p>
+<p>In our example system, firmware might add the following to the chosen node:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chosen &#123;</span><br><span class="line">    bootargs &#x3D; &quot;root&#x3D;&#x2F;dev&#x2F;nfs rw nfsroot&#x3D;192.168.1.1 console&#x3D;ttyS0,115200&quot;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="Advanced-Topics"><a href="#Advanced-Topics" class="headerlink" title="Advanced Topics"></a>Advanced Topics</h2><h3 id="Advanced-Sample-Machine"><a href="#Advanced-Sample-Machine" class="headerlink" title="Advanced Sample Machine"></a>Advanced Sample Machine</h3><p>Now that we’ve got the basics defined, let’s add some hardware to the sample machine to discuss some of the more complicated use cases.</p>
+<p>The advanced sample machine adds a PCI host bridge with control  registers memory mapped to 0x10180000, and BARs programmed to start  above the address 0x80000000.</p>
+<p>Given what we already know about the device tree, we can start  with the addition of the following node to describe the PCI host bridge.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pci@10180000 &#123;</span><br><span class="line">    compatible &#x3D; &quot;arm,versatile-pci-hostbridge&quot;, &quot;pci&quot;;</span><br><span class="line">    reg &#x3D; &lt;0x10180000 0x1000&gt;;</span><br><span class="line">    interrupts &#x3D; &lt;8 0&gt;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="PCI-Host-Bridge"><a href="#PCI-Host-Bridge" class="headerlink" title="PCI Host Bridge"></a>PCI Host Bridge</h3><p>This section describes the Host/PCI bridge node.</p>
+<p>Note, some basic knowledge of PCI is assumed in this section.  This is NOT a tutorial about PCI, if you need some more in depth  information, please read<a target="_blank" rel="noopener" href="https://elinux.org/Device_Tree_Usage#cite_note-1">[1]</a>. You can also refer to either <a target="_blank" rel="noopener" href="https://www.power.org/documentation/power-org-standard-for-embedded-power-architecture-platform-requirements-epapr-v1-1-2/">ePAPR v1.1</a> or the <a target="_blank" rel="noopener" href="https://www.openfirmware.info/data/docs/bus.pci.pdf">PCI Bus Binding to Open Firmware</a>. A complete working example for a Freescale MPC5200 can be found <a target="_blank" rel="noopener" href="https://elinux.org/index.php?title=MPC5200:PCI&amp;action=edit&amp;redlink=1">here</a>.</p>
+<h4 id="PCI-Bus-numbering"><a href="#PCI-Bus-numbering" class="headerlink" title="PCI Bus numbering"></a>PCI Bus numbering</h4><p>Each PCI bus segment is uniquely numbered, and the bus numbering is exposed in the pci node by using the <code>bus-range</code> property, which contains two cells.  The first cell gives the bus  number assigned to this node, and the second cell gives the maximum bus  number of any of the subordinate PCI busses.</p>
+<p>The sample machine has a single pci bus, so both cells are 0.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pci@0x10180000 &#123;</span><br><span class="line">    compatible &#x3D; &quot;arm,versatile-pci-hostbridge&quot;, &quot;pci&quot;;</span><br><span class="line">    reg &#x3D; &lt;0x10180000 0x1000&gt;;</span><br><span class="line">    interrupts &#x3D; &lt;8 0&gt;;</span><br><span class="line">    bus-range &#x3D; &lt;0 0&gt;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="PCI-Address-Translation"><a href="#PCI-Address-Translation" class="headerlink" title="PCI Address Translation"></a>PCI Address Translation</h4><p>Similar to the local bus described earlier, the PCI address space is  completely separate from the CPU address space, so address translation  is needed to get from a PCI address to a CPU address. As always, this is done using the <a target="_blank" rel="noopener" href="https://elinux.org/Device_Tree_Usage#Ranges_.28Address_Translation.29"><code>range</code></a>, <code>#address-cells</code>, and <code>#size-cells</code> properties.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">pci@0x10180000 &#123;</span><br><span class="line">    compatible &#x3D; &quot;arm,versatile-pci-hostbridge&quot;, &quot;pci&quot;;</span><br><span class="line">    reg &#x3D; &lt;0x10180000 0x1000&gt;;</span><br><span class="line">    interrupts &#x3D; &lt;8 0&gt;;</span><br><span class="line">    bus-range &#x3D; &lt;0 0&gt;;</span><br><span class="line"></span><br><span class="line">    #address-cells &#x3D; &lt;3&gt;</span><br><span class="line">    #size-cells &#x3D; &lt;2&gt;;</span><br><span class="line">    ranges &#x3D; &lt;0x42000000 0 0x80000000 0x80000000 0 0x20000000</span><br><span class="line">              0x02000000 0 0xa0000000 0xa0000000 0 0x10000000</span><br><span class="line">              0x01000000 0 0x00000000 0xb0000000 0 0x01000000&gt;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>As you can see, child addresses (PCI  addresses) use 3 cells, and PCI ranges are encoded into 2 cells. The  first question might be, why do we need three 32 bit cells to specify a  PCI address. The three cells are labeled phys.hi, phys.mid and phys.low <a target="_blank" rel="noopener" href="https://elinux.org/Device_Tree_Usage#cite_note-2">[2]</a>.</p>
+<ul>
+<li><code>phys.hi cell:  npt000ss bbbbbbbb dddddfff rrrrrrrr</code></li>
+<li><code>phys.mid cell: hhhhhhhh hhhhhhhh hhhhhhhh hhhhhhhh</code></li>
+<li><code>phys.low cell: llllllll llllllll llllllll llllllll</code></li>
+</ul>
+<p>PCI addresses are 64 bits wide, and are encoded into phys.mid and  phys.low.  However, the really interesting things are in phys.high which is a bit field:</p>
+<ul>
+<li><code>n</code>: relocatable region flag (doesn’t play a role here)</li>
+<li><code>p</code>: prefetchable (cacheable) region flag</li>
+<li><code>t</code>: aliased address flag (doesn’t play a role here)</li>
+<li><code>ss</code>: space code<ul>
+<li>00: configuration space</li>
+<li>01: I/O space</li>
+<li>10: 32 bit memory space</li>
+<li>11: 64 bit memory space</li>
+</ul>
+</li>
+<li><code>bbbbbbbb</code>: The PCI bus number. PCI may be structured hierarchically. So we may have PCI/PCI bridges which will define sub busses.</li>
+<li><code>ddddd</code>: The device number, typically associated with IDSEL signal connections.</li>
+<li><code>fff</code>: The function number. Used for multifunction PCI devices.</li>
+<li><code>rrrrrrrr</code>: Register number; used for configuration cycles.</li>
+</ul>
+<p>For the purpose of PCI address translation, the important fields are <code>p</code> and <code>ss</code>.  The value of p and ss in phys.hi determines which PCI address space is being accessed.  So looking onto our ranges property, we have three  regions:</p>
+<ul>
+<li>a 32 bit prefetchable memory region beginning on PCI address  0x80000000 of 512 MByte size which will be mapped onto address  0x80000000 on the host CPU.</li>
+<li>a 32 bit non-prefetchable memory region beginning on PCI address  0xa0000000 of 256 MByte size which will be mapped onto address  0xa0000000 on the host CPU.</li>
+<li>an I/O region beginning on PCI address 0x00000000 of 16 MByte size which will be mapped onto address 0xb0000000 on the host CPU.</li>
+</ul>
+<p>To throw a wrench into the works, the presence of the phys.hi  bitfield means that an operating system needs to know that the node  represents a PCI bridge so that it can ignore the irrelevant fields for  the purpose of translation.  An OS will look for the string “pci” in the PCI bus nodes to determine whether it needs to mask of the extra  fields.</p>
+<h4 id="PCI-DMA-Address-Translation"><a href="#PCI-DMA-Address-Translation" class="headerlink" title="PCI DMA Address Translation"></a>PCI DMA Address Translation</h4><p>The above ranges define how the CPU see the PCI memory, and helps the CPU to set up the right memory windows and write the right parameters  into various PCI device registers. This is sometimes referred to as <em>outbound memory</em>.</p>
+<p>A special case of address translation concerns how the PCI host  hardware sees the core memory of the system. This happens when the PCI  host controller will act as master and independently access the core  memory of the system. As this is often a different view than that of the CPU (due to how the memory lines have been wired) this may need to be  programmed into the PCI host controller on initialization. This is seen  as a kind of DMA as the PCI bus independently performs direct memory  access, and for this reason the mappings are named <strong>dma-ranges</strong>. This type of memory mapping is sometimes referred to as <em>inbound memory</em> and is not part of the PCI device tree specification.</p>
+<p>In some cases, a ROM (BIOS) or similar will set up these  registers on boot, but in other cases, the PCI controller is completely  uninitialized and these translations need to be set up from the device  tree. The PCI host driver will then typically parse the dma-ranges  property and set up some registers in the host controller accordingly.</p>
+<p>Expanding on the example above:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pci@0x10180000 &#123;</span><br><span class="line">    compatible &#x3D; &quot;arm,versatile-pci-hostbridge&quot;, &quot;pci&quot;;</span><br><span class="line">    reg &#x3D; &lt;0x10180000 0x1000&gt;;</span><br><span class="line">    interrupts &#x3D; &lt;8 0&gt;;</span><br><span class="line">    bus-range &#x3D; &lt;0 0&gt;;</span><br><span class="line"></span><br><span class="line">    #address-cells &#x3D; &lt;3&gt;</span><br><span class="line">    #size-cells &#x3D; &lt;2&gt;;</span><br><span class="line">    ranges &#x3D; &lt;0x42000000 0 0x80000000 0x80000000 0 0x20000000</span><br><span class="line">              0x02000000 0 0xa0000000 0xa0000000 0 0x10000000</span><br><span class="line">              0x01000000 0 0x00000000 0xb0000000 0 0x01000000</span><br><span class="line">    dma-ranges &#x3D; &lt;0x02000000 0 0x00000000 0x80000000 0 0x20000000&gt;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>This <strong>dma-ranges</strong> entry indicates that from the PCI host controller’s point of view, the 512 MB at PCI address 0x00000000 will appear in the main core memory at address 0x80000000. As you can see we just set the <em>ss</em> address type to 0x02 indicating this is some 32bit memory.</p>
+<h3 id="Advanced-Interrupt-Mapping"><a href="#Advanced-Interrupt-Mapping" class="headerlink" title="Advanced Interrupt Mapping"></a>Advanced Interrupt Mapping</h3><p>Now we come to the most interesting part, PCI interrupt mapping. A  PCI device can trigger interrupts using the wires #INTA, #INTB, #INTC  and #INTD. The # hash sign in front of the interrupt names means it is  active low, this is a common convention, and PCI interrupt lines are  always active low. A single-function device is obligated to use #INTA  for interrupts.  A multi-function device must use #INTA if it uses a  single interrupt pin, #INTA and #INTB if it uses two interrupt pins,  etc.  Due to these rules, #INTA is normally used by more functions than  #INTB, #INTC, and #INTD.  To distribute the load across the four IRQ  lines backing #INTA through #INTD, each PCI slot or device is typically  wired to different inputs on the interrupt controller in rotating manner so as to avoid having all #INTA clients connected to the same incoming  interrupt line.  This procedure is referred to as <em>swizzling</em> the  interrupts.  So, the device tree needs a way of mapping each PCI  interrupt signal to the inputs of the interrupt controller.  The <code>#interrupt-cells</code>, <code>interrupt-map</code> and <code>interrupt-map-mask</code> properties are used to describe the interrupt mapping.</p>
+<p>Actually, the interrupt mapping described here isn’t limited to  PCI busses, any node can specify complex interrupt maps, but the PCI  case is by far the most common.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">pci@0x10180000 &#123;</span><br><span class="line">    compatible &#x3D; &quot;arm,versatile-pci-hostbridge&quot;, &quot;pci&quot;;</span><br><span class="line">    reg &#x3D; &lt;0x10180000 0x1000&gt;;</span><br><span class="line">    interrupts &#x3D; &lt;8 0&gt;;</span><br><span class="line">    bus-range &#x3D; &lt;0 0&gt;;</span><br><span class="line"></span><br><span class="line">    #address-cells &#x3D; &lt;3&gt;</span><br><span class="line">    #size-cells &#x3D; &lt;2&gt;;</span><br><span class="line">    ranges &#x3D; &lt;0x42000000 0 0x80000000  0x80000000  0 0x20000000</span><br><span class="line">              0x02000000 0 0xa0000000  0xa0000000  0 0x10000000</span><br><span class="line">              0x01000000 0 0x00000000  0xb0000000  0 0x01000000&gt;;</span><br><span class="line"></span><br><span class="line">    #interrupt-cells &#x3D; &lt;1&gt;;</span><br><span class="line">    interrupt-map-mask &#x3D; &lt;0xf800 0 0 7&gt;;</span><br><span class="line">    interrupt-map &#x3D; &lt;0xc000 0 0 1 &amp;intc  9 3 &#x2F;&#x2F; 1st slot</span><br><span class="line">                     0xc000 0 0 2 &amp;intc 10 3</span><br><span class="line">                     0xc000 0 0 3 &amp;intc 11 3</span><br><span class="line">                     0xc000 0 0 4 &amp;intc 12 3</span><br><span class="line"></span><br><span class="line">                     0xc800 0 0 1 &amp;intc 10 3 &#x2F;&#x2F; 2nd slot</span><br><span class="line">                     0xc800 0 0 2 &amp;intc 11 3</span><br><span class="line">                     0xc800 0 0 3 &amp;intc 12 3</span><br><span class="line">                     0xc800 0 0 4 &amp;intc  9 3&gt;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>First you’ll notice that PCI interrupt numbers use only one cell, unlike the system interrupt controller which uses 2 cells; one for the  irq number, and one for flags.  PCI only needs one cell for interrupts  because PCI interrupts are specified to always be level-low sensitive.</p>
+<p>In our example board, we have 2 PCI slots with 4 interrupt lines, respectively, so we have to map 8 interrupt lines to the interrupt  controller. This is done using the interrupt-map property. The exact  procedure for interrupt mapping is described in<a target="_blank" rel="noopener" href="https://elinux.org/Device_Tree_Usage#cite_note-3">[3]</a> .</p>
+<p>Because the interrupt number (#INTA etc.) is not sufficient to  distinguish between several PCI devices on a single PCI bus, we also  have to denote which PCI device triggered the interrupt line.  Fortunately, every PCI device has a unique device number that we can use for. To distinguish between interrupts of several PCI devices we need a tuple consisting of the PCI device number and the PCI interrupt number. Speaking more generally, we construct a unit interrupt specifier which has four cells:</p>
+<ul>
+<li>three #address-cells consisting of phys.hi, phys.mid, phys.low, and</li>
+<li>one #interrupt-cell (#INTA, #INTB, #INTC, #INTD).</li>
+</ul>
+<p>Because we only need the device number part of the PCI address, the  interrupt-map-mask property comes into play. interrupt-map-mask is also a 4-tuple like the unit interrupt specifier. The 1’s in the mask denote which part of the unit interrupt specifier should be taken into account. In our example we can see that only the  device number part of phys.hi is required and we need 3 bits to  distinguish between the four interrupt lines (Counting PCI interrupt  lines start at 1, not at 0!).</p>
+<p>Now we can construct the interrupt-map property. This property is a table and each entry in this table consists of a child (PCI bus) unit interrupt specifier, a parent handle (the interrupt controller which is responsible for serving the interrupts) and a parent unit interrupt specifier. So in the first line we can read that the PCI interrupt #INTA is mapped onto IRQ 9, level low sensitive of our interrupt controller.  <a target="_blank" rel="noopener" href="https://elinux.org/Device_Tree_Usage#cite_note-4">[4]</a>.</p>
+<p>The only missing part for now are the weird numbers int the PCI bus unit interrupt specifier.  The important part of the unit interrupt specifier is the device  number from the phys.hi bit field.  Device number is board specific, and it depends on how each PCI host controller activates the IDSEL pin on  each device.  In this example, PCI slot 1 is assigned device id 24  (0x18), and PCI slot 2 is assigned device id 25 (0x19).  The value of  phys.hi for each slot is determined by shifting the device number up by  11 bits into the ddddd section of the bitfield as follows:</p>
+<ul>
+<li>phys.hi for slot 1 is 0xC000, and</li>
+<li>phys.hi for slot 2 is 0xC800.</li>
+</ul>
+<p>Putting it all together the interrupt-map property show:</p>
+<ul>
+<li>#INTA of slot 1 is IRQ9, level low sensitive on the primary interrupt controller</li>
+<li>#INTB of slot 1 is IRQ10, level low sensitive on the primary interrupt controller</li>
+<li>#INTC of slot 1 is IRQ11, level low sensitive on the primary interrupt controller</li>
+<li>#INTD of slot 1 is IRQ12, level low sensitive on the primary interrupt controller</li>
+</ul>
+<p>and</p>
+<ul>
+<li>#INTA of slot 2 is IRQ10, level low sensitive on the primary interrupt controller</li>
+<li>#INTB of slot 2 is IRQ11, level low sensitive on the primary interrupt controller</li>
+<li>#INTC of slot 2 is IRQ12, level low sensitive on the primary interrupt controller</li>
+<li>#INTD of slot 2 is IRQ9, level low sensitive on the primary interrupt controller</li>
+</ul>
+<p>The <code>interrupts = &lt;8 0&gt;;</code> property describes the  interrupts the host/PCI-bridge controller itself may trigger. Don’t mix  up these interrupts with interrupts <em>PCI devices</em> might trigger (using INTA, INTB, …).</p>
+<p>One final thing to note.  Just like with the interrupt-parent  property, the presence of an interrupt-map property on a node will  change the default interrupt controller for all child and grandchild  nodes.  In this PCI example, that means that the PCI host bridge becomes the default interrupt controller.  If a device attached via the PCI bus has a direct connection to another interrupt controller, then it also  needs to specify its own interrupt-parent property.</p>
+<h2 id="Notes"><a href="#Notes" class="headerlink" title="Notes"></a>Notes</h2><ol>
+<li>Tom Shanley / Don Anderson: PCI System Architecture. <a target="_blank" rel="noopener" href="http://www.mindshare.com/">Mindshare Inc.</a></li>
+<li><a target="_blank" rel="noopener" href="http://playground.sun.com/1275/bindings/pci/pci2_1.pdf">PCI Bus Bindings to Open Firmware.</a></li>
+<li><a target="_blank" rel="noopener" href="http://playground.sun.com/1275/practice/imap/imap0_9d.pdf">Open Firmware Recommended Practice: Interrupt Mapping</a></li>
+<li>PCI interrupts are always level low sensitive.</li>
+</ol>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script><link rel="stylesheet" href="/css/markmap.css" type="text/css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css"><script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>周国强
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xsdjt.github.io/2021/11/01/ComputerScience/2021/11/devicetree/" title="学会使用设备树（Device Tree）">https://xsdjt.github.io/2021/11/01/ComputerScience/2021/11/devicetree/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+              <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i> C</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/10/25/ComputerScience/2021/10/read/" rel="prev" title="申请堆内存的相关代码">
+      <i class="fa fa-chevron-left"></i> 申请堆内存的相关代码
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/09/zlg-EasyARM-iMX283A/record/" rel="next" title="EasyARM-i.MX283A/287A开发套件">
+      EasyARM-i.MX283A/287A开发套件 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8E%9F%E6%96%87%E6%91%98%E5%BD%95%E4%B8%8E%E4%B8%AA%E4%BA%BA%E7%90%86%E8%A7%A3"><span class="nav-number">1.</span> <span class="nav-text">原文摘录与个人理解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Device-Tree-Usage-%E5%8E%9F%E6%96%87"><span class="nav-number">2.</span> <span class="nav-text">Device Tree Usage 原文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic-Data-Format"><span class="nav-number">2.1.</span> <span class="nav-text">Basic Data Format</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic-Concepts"><span class="nav-number">2.2.</span> <span class="nav-text">Basic Concepts</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sample-Machine"><span class="nav-number">2.2.1.</span> <span class="nav-text">Sample Machine</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Initial-structure"><span class="nav-number">2.2.2.</span> <span class="nav-text">Initial structure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CPUs"><span class="nav-number">2.2.3.</span> <span class="nav-text">CPUs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Node-Names"><span class="nav-number">2.2.4.</span> <span class="nav-text">Node Names</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Devices"><span class="nav-number">2.2.5.</span> <span class="nav-text">Devices</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Understanding-the-compatible-Property"><span class="nav-number">2.2.6.</span> <span class="nav-text">Understanding the compatible Property</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-Addressing-Works"><span class="nav-number">2.3.</span> <span class="nav-text">How Addressing Works</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CPU-addressing"><span class="nav-number">2.3.1.</span> <span class="nav-text">CPU addressing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Memory-Mapped-Devices"><span class="nav-number">2.3.2.</span> <span class="nav-text">Memory Mapped Devices</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Non-Memory-Mapped-Devices"><span class="nav-number">2.3.3.</span> <span class="nav-text">Non Memory Mapped Devices</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ranges-Address-Translation"><span class="nav-number">2.3.4.</span> <span class="nav-text">Ranges (Address Translation)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-Interrupts-Work"><span class="nav-number">2.4.</span> <span class="nav-text">How Interrupts Work</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Device-Specific-Data"><span class="nav-number">2.5.</span> <span class="nav-text">Device Specific Data</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Special-Nodes"><span class="nav-number">2.6.</span> <span class="nav-text">Special Nodes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#aliases-Node"><span class="nav-number">2.6.1.</span> <span class="nav-text">aliases Node</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chosen-Node"><span class="nav-number">2.6.2.</span> <span class="nav-text">chosen Node</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Advanced-Topics"><span class="nav-number">2.7.</span> <span class="nav-text">Advanced Topics</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Advanced-Sample-Machine"><span class="nav-number">2.7.1.</span> <span class="nav-text">Advanced Sample Machine</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PCI-Host-Bridge"><span class="nav-number">2.7.2.</span> <span class="nav-text">PCI Host Bridge</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#PCI-Bus-numbering"><span class="nav-number">2.7.2.1.</span> <span class="nav-text">PCI Bus numbering</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PCI-Address-Translation"><span class="nav-number">2.7.2.2.</span> <span class="nav-text">PCI Address Translation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PCI-DMA-Address-Translation"><span class="nav-number">2.7.2.3.</span> <span class="nav-text">PCI DMA Address Translation</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Advanced-Interrupt-Mapping"><span class="nav-number">2.7.3.</span> <span class="nav-text">Advanced Interrupt Mapping</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Notes"><span class="nav-number">2.8.</span> <span class="nav-text">Notes</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="周国强"
+      src="/images/uparrow.jpg">
+  <p class="site-author-name" itemprop="name">周国强</p>
+  <div class="site-description" itemprop="description">勤学勤思出真知</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xsdjt" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xsdjt" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhouguoqiang2015@outlook.com" title="E-Mail → mailto:zhouguoqiang2015@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">周国强</span>
+</div>
+
+<!--添加运行时间-->
+<span id="sitetime"></span>
+<script language=javascript>
+	function siteTime(){
+		window.setTimeout("siteTime()", 1000);
+		var seconds = 1000;
+		var minutes = seconds * 60;
+		var hours = minutes * 60;
+		var days = hours * 24;
+		var years = days * 365;
+		var today = new Date();
+		var todayYear = today.getFullYear();
+		var todayMonth = today.getMonth()+1;
+		var todayDate = today.getDate();
+		var todayHour = today.getHours();
+		var todayMinute = today.getMinutes();
+		var todaySecond = today.getSeconds();
+		/* 
+      Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+      year - 作为date对象的年份，为4位年份值
+      month - 0-11之间的整数，做为date对象的月份
+      day - 1-31之间的整数，做为date对象的天数
+      hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+      minutes - 0-59之间的整数，做为date对象的分钟数
+      seconds - 0-59之间的整数，做为date对象的秒数
+      microseconds - 0-999之间的整数，做为date对象的毫秒数
+     */
+		var t1 = Date.UTC(2021,04,27,18,12,20); //北京时间2021-04-27 18:12:20
+		var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+		var diff = t2-t1;
+		var diffYears = Math.floor(diff/years);
+		var diffDays = Math.floor((diff/days)-diffYears*365);
+		var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+		var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+		var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+		if(0 == diffYears)
+		    document.getElementById("sitetime").innerHTML="已运行"+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+                else
+		    document.getElementById("sitetime").innerHTML="已运行"+diffYears+" 年 "+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+	}
+	siteTime();
+</script>
+<!--// 添加运行时间-->
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '68d16df1433acc6c052d',
+      clientSecret: '60478ee823859ddf4cdae47186eec88cbb5c9fc4',
+      repo        : 'xsdjt.github.io',
+      owner       : 'xsdjt',
+      admin       : ['xsdjt'],
+      id          : '8cd5bfa6b86fc002c7a51c8bf5898c58',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<!-- hexo injector body_end start -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-view"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-lib@0.11.6/dist/browser/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-base64@3.6.1/base64.min.js"></script>
+  <script>
+      // console.log(window.markmap);
+      const { Markmap, loadCSS, loadJS, loadPlugins } = window.markmap;
+      let Transformer = window.markmap.Transformer;
+      let transformer = new Transformer();
+
+      const mindmaps = document.querySelectorAll('.markmap-svg');
+      
+      for(const mindmap of mindmaps) {
+
+          //console.log(mindmap.innerHTML);
+          //let a=new Buffer(mindmap.innerHTML,'base64').toString(); //base64 decode
+
+          let mddata = Base64.decode(mindmap.innerHTML);
+          // console.log(mddata);
+
+          const { root, features } = transformer.transform(mddata);
+
+
+          // 1. load assets
+          const { styles, scripts } = transformer.getAssets();
+          if (styles) loadCSS(styles);
+          // if (scripts) loadJS(scripts);
+          if (scripts) loadJS(scripts, { getMarkmap: () => window.markmap });
+
+
+          Markmap.create(mindmap, null, root);
+      }
+  </script> <!-- hexo injector body_end end --></body>
+</html>
