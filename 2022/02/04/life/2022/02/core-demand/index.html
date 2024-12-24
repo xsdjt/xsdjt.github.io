@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xsdjt.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="测试结果和个人的心理预期比较吻合。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="核心需求测试报告">
+<meta property="og:url" content="https://xsdjt.github.io/2022/02/04/life/2022/02/core-demand/index.html">
+<meta property="og:site_name" content="随笔">
+<meta property="og:description" content="测试结果和个人的心理预期比较吻合。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xsdjt.github.io/images/image-20220205143154122.png">
+<meta property="article:published_time" content="2022-02-04T16:30:00.000Z">
+<meta property="article:modified_time" content="2024-12-24T23:19:16.459Z">
+<meta property="article:author" content="周国强">
+<meta property="article:tag" content="life">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xsdjt.github.io/images/image-20220205143154122.png">
+
+<link rel="canonical" href="https://xsdjt.github.io/2022/02/04/life/2022/02/core-demand/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>核心需求测试报告 | 随笔</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">随笔</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录，分享，然后享受生活。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-train fa-fw"></i>推荐链接</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xsdjt.github.io/2022/02/04/life/2022/02/core-demand/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/uparrow.jpg">
+      <meta itemprop="name" content="周国强">
+      <meta itemprop="description" content="勤学勤思出真知">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随笔">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          核心需求测试报告<a href="https://github.com/xsdjt/hexo-blog/tree/main/source/_posts/life/2022/02/core-demand.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-02-04 16:30:00" itemprop="dateCreated datePublished" datetime="2022-02-04T16:30:00+00:00">2022-02-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%94%9F%E6%B4%BB/" itemprop="url" rel="index"><span itemprop="name">生活</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">测试结果和个人的心理预期比较吻合。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <div class="markmap-container" style="height:400px;" ><svg class="markmap-svg">IyDmoLjlv4Plv4PnkIbpnIDmsYLpgI_op4YKIyMg5Lqy5a-G6ZyA5rGC77ya6YCa6L-H5o6l6Kem44CB6ZiF6K-744CB5Lqy6L-R562J5LiA5YiH6IO95aSf5byV6LW35oCn5aWL55qE5Lq644CB5LqL44CB54mp55qE6ZyA5rGC44CCCiMjIOeJqei0qOmcgOaxgu-8muW4jOacm-iOt-W-l-mHkemSseOAgemjn-eJqeOAgeaIv-WtkOetieeJqei0qO-8jOa7oei2s-eUn-WtmOaIluiOt-W-l-abtOWlveeUn-a0u-adoeS7tueahOmcgOaxguOAggojIyDoh6rkuLvpnIDmsYLvvJrluIzmnJvog73lpJ_ni6znq4voh6rkuLvjgIHpmo_lv4PmiYDmrLLjgIHkuI3lj5fpmZDliLbnmoTpnIDmsYLjgIIKIyMg56ep5bqP6ZyA5rGC77ya5biM5pyb6Ieq5bex5ZGo5Zu055qE5LqL54mp5Lul5p-Q56eN56ym5ZCI6YC76L6R55qE57O757uf5oiW6aG65bqP5pW06b2Q5o6S5YiX55qE6ZyA5rGC44CCCiMjIOWKqeS6uumcgOaxgu-8muW4jOacm-iDveWkn-WQjOaDheOAgeW4ruWKqeWIq-S6uueahOmcgOaxguOAggojIyDpobrku47pnIDmsYLvvJrluIzmnJvoh6rlt7HnmoTooYzkuLrkuL7mraLpg73og73lvpfliLDmjIflr7zvvIzluIzmnJvlj6ropoHkvp3nhafop4TliJnlkozmjIfku6TooYzkuovlsLHog73lrozmiJDnm67moIfnmoTpnIDmsYLjgIIKIyMg6KGo546w6ZyA5rGC77ya5oOz6KaB6KGo546w6Ieq5bex55qE6Zeq5YWJ54K577yM5biM5pyb6IO95byV6LW35Yir5Lq65a-56Ieq5bex55qE5rOo5oSP5ZKM6YeN6KeG55qE6ZyA5rGC44CCCiMjIOaUr-mFjemcgOaxgu-8muW4jOacm-iDveWkn-aIkOS4uuS4gOWQjemihuWvvOiAheOAgemihuiiluOAgeaMh-WvvOiAheOAgeaOp-WItuiAheeahOmcgOaxguOAggojIyDmiJDlsLHpnIDmsYLvvJrmuLTmnJvoh6rlt7Hog73lpJ_lhYvmnI3lm7Dpmr7jgIHlip7miJDlpKfkuovjgIHojrflvpfmiJDlip_nmoTpnIDmsYLjgIIKIyMg5oiQ6ZW_6ZyA5rGC77ya5biM5pyb6YCa6L-H5LiN5pat5Zyw44CB5rex5bGC5qyh55qE5oCd6ICD77yM56qB56C06Ieq5bex55qE6K6k55-l5bGA6ZmQ77yM6I635b6X5oiQ6ZW_55qE6ZyA5rGC44CC</svg></div>
+<p>谢谢您的参与，阅读本报告时，请注意以下内容：<br>测评图表可快速帮您掌握报告内容；<br>本结果仅供参考，不可作为临床诊断的依据；<br>如结果与你自己或他人感知的有出入，可回忆在测试时是否有事情影响了你，或自己答题时是否有所顾虑；<br>如对报告有不理解的地方，建议向专业资质人员进行咨询。</p>
+<p>事实上需求没有好坏之分，你可能会在几种需求上共同表现出高分，接下来我们只详细描述你在一种需求上的表现。</p>
+<p><img src="/images/image-20220205143154122.png" alt="image-20220205143154122"></p>
+<h1 id="你的核心心理需求"><a href="#你的核心心理需求" class="headerlink" title="你的核心心理需求"></a>你的核心心理需求</h1><p>☛ 你有着很高的成长需求，喜欢分析、追求知识，想要了解这个未知的世界，希望能够不断提高自己的认知水平。</p>
+<p>☛ 你是一个喜欢独自分析和思考的人，希望能够找寻到生命的意义，而且由于你善于思考，所以你解决问题的能力比一般人强。</p>
+<h2 id="在生活中：高峰体验、被照顾"><a href="#在生活中：高峰体验、被照顾" class="headerlink" title="在生活中：高峰体验、被照顾"></a>在生活中：高峰体验、被照顾</h2><p>☛ 追求认知的提升使你保持积极向上、充沛精力的动力，通过认知局限的突破来实现自己存在的价值。</p>
+<p>☛ 当你在满足自己成长需求时，会获得高峰体验，你会有更加整合的自我感觉，减少内耗冲突犹豫，心平气和，注意力高度集中，放松而协调。</p>
+<p>☛ 因此你常常会在思考中忘却时间，会由于太过投入而忽略了自己、家人、身边的其他事情等等。</p>
+<p>☛ 也正是因为如此，生活中的你可能不太会照顾自己，常常需要他人的照顾。</p>
+<h2 id="在工作中：迎难而上、专心致志"><a href="#在工作中：迎难而上、专心致志" class="headerlink" title="在工作中：迎难而上、专心致志"></a>在工作中：迎难而上、专心致志</h2><p>☛ 对成长的需求令你不断地追逐认知上的突破，面对困难你更会迎难而上，你对于知识的渴望让你在工作中总是比别人付出更多，也能让你把握更多的机会。</p>
+<p>☛ 在职场上，你会成为团队中的专才，因为遇到同样的难题时，你比一般人付出更多的时间去思考和解决这一难题。</p>
+<p>☛ 对于成长的需求使你在行动时自然放松，简单诚恳，不踌躇做作，有一种特殊的淳朴，奔涌出生命力。</p>
+<h2 id="在感情中：忽视、被包容"><a href="#在感情中：忽视、被包容" class="headerlink" title="在感情中：忽视、被包容"></a>在感情中：忽视、被包容</h2><p>☛ 恋爱对于你来说相当于生活的调味品，而并非必需品，即使没有爱情对于你来说影响也不大。</p>
+<p>☛ 所以你的感情常常需要为你的学习和工作做出让步。你的恋人应该对你有足够的理解、崇拜和爱，才能包容你将所有的注意都投入在学习或工作上。</p>
+<p>☛ 在恋爱的过程中，你并不是一个“合格的伴侣”。由于你几乎将自己的全部精力都放在了自己的工作或学习上，所以你很少有时间能够与自己的恋人相处。</p>
+<h1 id="你的深层心理需求"><a href="#你的深层心理需求" class="headerlink" title="你的深层心理需求"></a>你的深层心理需求</h1><p>☛ 心理学家默里表示，每一个核心心理需求背后，其实都隐藏着一个更深层次的心理需求。</p>
+<p>☛ 根据马斯洛需求层次理论，深层心理需求像阶梯一样从低到高，按层次逐级递升。</p>
+<p>☛ 一般来说，只有满足了低层次的需求，才会向高一层次发展。</p>
+<p>☛ 但这样的次序并不是完全固定的，层级可以并列，也可以跳跃。</p>
+<p>☛ 很多时候，是因人而异，因事而异的。例如，消防员救火，牺牲了安全需求，而满足了自我实现的需求。</p>
+<p>☛ 所以并不是说需求层级越高，你的人生状态就越好。它只是指出了你内心深处最渴望的那部分。</p>
+<p>☛ 有着高成长需求的你，内心可能隐藏着【认知】的深沉渴望。</p>
+<p>☛ 这归属于马斯洛需求层次理论中“自我实现”的需求，意味着在你的内心深处，你渴求能够实现自己的价值，想要通过不断地去思考、探索以找到存在的意义，创造出属于自己的价值。</p>
+<p>☛ 在寻求认知的背后，包含着这样一层含义：通过知识的积累和认知水平的提高就能有所突破，实现自己的价值。</p>
+<p>☛ 这种内在能力、认知水平的提高，让你对自我的价值有所肯定。你的这种需求不依附于外在他人的认同和肯定，而是来自于自己。</p>
+<h1 id="可能掉入的“陷阱”"><a href="#可能掉入的“陷阱”" class="headerlink" title="可能掉入的“陷阱”"></a>可能掉入的“陷阱”</h1><h2 id="陷阱一：社交单一"><a href="#陷阱一：社交单一" class="headerlink" title="陷阱一：社交单一"></a>陷阱一：社交单一</h2><p>☛ 过高的认知需求可能会让你需要更多的时间独处或与自己知识层面相同的人探讨问题，所以这就导致你的交际面会比较狭窄，社交单一。</p>
+<p>☛ 另一方面，你可能会是一个非常冷静的人，总想跟身边的人和事保持一定的距离，以避免因这些人和事所产生的情绪对你造成困扰，影响你的思绪。</p>
+<h2 id="陷阱二：忽略健康"><a href="#陷阱二：忽略健康" class="headerlink" title="陷阱二：忽略健康"></a>陷阱二：忽略健康</h2><p>☛ 过高的认知需求可能会让你将大量的精力都投入到分析思考、突破自己的认知局限上，而忽略了自己的身体健康。</p>
+<p>☛ 你可能会由于太过专注于做分析、做计划，而忘记了吃饭、睡觉和换衣服这类日常生活习惯。不懂得照顾自己。</p>
+<hr>
+<h1 id="测评建议"><a href="#测评建议" class="headerlink" title="测评建议"></a>测评建议</h1><h2 id="如何满足你的需求"><a href="#如何满足你的需求" class="headerlink" title="如何满足你的需求"></a>如何满足你的需求</h2><p>1、选择合适的职业和团队，满足核心需求</p>
+<p>♣ 根据你的成长需求，你可以寻找一份能给你充分的私人空间和高度隐私的工作，这样能够给你足够的独处空间进行自我思考和创作。</p>
+<p>♣ 你可以从事一些研究类的工作，比如医学、心理学、哲学方面的等等，成为某一领域的专家。你也可以从事一些可以让你创新并富有挑战的工作，比如设计师等等。</p>
+<p>2、选择和你有相同需求的另一半</p>
+<p>♣ 在择偶方面，与你有着同样特质的另一半和你会有更好的默契，能够理解和支持你的认知需求，也能满足你的其他需要，从而使彼此的权力在爱情关系中达到平衡。</p>
+<p>♣ 倘若对方的认知需求较弱，Ta可能无法理解你将自己的大部分精力放在工作或学习上而产生矛盾或争执。</p>
+<p>♣ 无论跟谁在一起，爱情都是一场自我的修行。学会在爱中不断成长，跟爱的人一起去看天大地大，而不是抱在一起相互取暖。</p>
+<p>3、积累知识</p>
+<p>♣ 你可以通过阅读更多不同类型的书籍，探索更多不同领域、不同专业的理论，与更多不同职业、不同圈子的人结交的方式来拓展思想的宽度。</p>
+<p>♣ 也可以对自己感兴趣的理论进行深入研究来加深思想的深度，或是研读各大哲学家、思想家的学说言论让自己向更高层次的思想靠近，甚至可以通过写书的方式在整理、传达自己的思想的同时实现自我提升。</p>
+<p>4、获得自我价值感，满足深层需求</p>
+<p>第一步，自我觉知：倾听自己内在的喜悦和噪音。</p>
+<p>♣ 闭上眼睛，仔细聆听自己，感受自己的身体和精神。在脑海中浮现自己的样子：你的发型是什么？眼睛大不大？嘴巴怎么样？身体各部分的知觉如何？是温暖的，还是寒冷的？是沉重的，还是轻飘飘的？当下的感受如何？开心的？还是难过的？……</p>
+<p>第二步，清醒催眠：获得正向的反馈。</p>
+<p>♣ 找到一个合适的人，恋人或朋友，或者是互助小组的成员，让对方给予你正向的反馈，鼓励你，表扬你，安抚你，给你拥抱。</p>
+<p>♣ 你也可以尝试给予他人正向反馈，如夸赞对方的优点，做得好的地方，能量的输出也会让你更有力量。</p>
+<p>第三步，断裂修复：第二次出生。</p>
+<p>♣ 试着写回顾日记，记录过去这段时间（一个月）完成了什么，遇到了什么困境，你是如何解决的。</p>
+<p>♣ 再一项项写下想要完成什么事，一个月过去之后再翻开，在已完成的事情上打勾，没完成的顺延至下个月。在这过程中，你会感受到自己对生活的把控。</p>
+<p>♣ 此时，冥想对你会有帮助。</p>
+<p>♣ 冥想指南：每天给自己留一段冥想的时间，找个安静的环境坐下来，闭上眼睛跟随你的呼吸。</p>
+<p>♣ 想象你都控制住了那些事情，再回到呼吸上，呼气，吸气，呼气，吸气……。</p>
+<p>♣ 需要的话，你也可以听着舒缓的音乐开始。</p>
+<h2 id="避免你的需求陷阱"><a href="#避免你的需求陷阱" class="headerlink" title="避免你的需求陷阱"></a>避免你的需求陷阱</h2><p>1、关注当下</p>
+<p>♣ 你对于认知的需求常常会令你抽离于你目前的生活，所以你需要分出一些精力关注当下的“琐事”。</p>
+<p>♣ 你可能智力超常，但如果你没有把它用在你自己或者其他人身上，智力就成了你的障碍。</p>
+<p>♣ 在做那些不一定能提升你自己的自尊、自信或生活状况的琐事时，可以做一些更有吸引力的事情，比如运动、消遣等，更有助于提升你的自信。</p>
+<p>2、掌握社交技巧</p>
+<p>① 学习与人建立情感联结的开始阶段： 多交流</p>
+<p>➷ 对他人表示感激的话语</p>
+<p>➷ 礼貌适当的身体接触</p>
+<p>➷ 送一点小礼物    ……</p>
+<p>② 学习与人建立情感联结的加强阶段：在交流时注意一些细微事项</p>
+<p>♣ 保持微笑：友好的态度让人更愿意与你接触</p>
+<p>♣ 进行眼神交流：适当的眼神接触让人感觉到你有在把注意力投入在对方身上，鼓励他们进一步自我袒露</p>
+<p>♣ 共情：倾听完试着理解他们的感受，并表达出来</p>
+<p>♣ 表示善意：对他们的问题提供适当的帮助，或仅仅只是一句鼓励或安慰</p>
+<p>3、关注自己的身体状况</p>
+<p>♣ 你易于紧张，生活的弦绷得太紧，以至于很难放松、松弛，不要求助于外来的麻醉和酒精。</p>
+<p>♣ 沉思、慢跑、瑜珈、跳舞等或许会比较适合你来放松自己。</p>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script><link rel="stylesheet" href="/css/markmap.css" type="text/css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css"><script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>周国强
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xsdjt.github.io/2022/02/04/life/2022/02/core-demand/" title="核心需求测试报告">https://xsdjt.github.io/2022/02/04/life/2022/02/core-demand/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/life/" rel="tag"><i class="fa fa-tag"></i> life</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/01/31/IMX6ULL/01_Starting/" rel="prev" title="使用Docker搭建开发环境(00)">
+      <i class="fa fa-chevron-left"></i> 使用Docker搭建开发环境(00)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/02/05/life/2022/02/book/" rel="next" title="语言表达">
+      语言表达 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%A0%E7%9A%84%E6%A0%B8%E5%BF%83%E5%BF%83%E7%90%86%E9%9C%80%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">你的核心心理需求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E7%94%9F%E6%B4%BB%E4%B8%AD%EF%BC%9A%E9%AB%98%E5%B3%B0%E4%BD%93%E9%AA%8C%E3%80%81%E8%A2%AB%E7%85%A7%E9%A1%BE"><span class="nav-number">1.1.</span> <span class="nav-text">在生活中：高峰体验、被照顾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E5%B7%A5%E4%BD%9C%E4%B8%AD%EF%BC%9A%E8%BF%8E%E9%9A%BE%E8%80%8C%E4%B8%8A%E3%80%81%E4%B8%93%E5%BF%83%E8%87%B4%E5%BF%97"><span class="nav-number">1.2.</span> <span class="nav-text">在工作中：迎难而上、专心致志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E6%84%9F%E6%83%85%E4%B8%AD%EF%BC%9A%E5%BF%BD%E8%A7%86%E3%80%81%E8%A2%AB%E5%8C%85%E5%AE%B9"><span class="nav-number">1.3.</span> <span class="nav-text">在感情中：忽视、被包容</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%A0%E7%9A%84%E6%B7%B1%E5%B1%82%E5%BF%83%E7%90%86%E9%9C%80%E6%B1%82"><span class="nav-number">2.</span> <span class="nav-text">你的深层心理需求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%AF%E8%83%BD%E6%8E%89%E5%85%A5%E7%9A%84%E2%80%9C%E9%99%B7%E9%98%B1%E2%80%9D"><span class="nav-number">3.</span> <span class="nav-text">可能掉入的“陷阱”</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%B7%E9%98%B1%E4%B8%80%EF%BC%9A%E7%A4%BE%E4%BA%A4%E5%8D%95%E4%B8%80"><span class="nav-number">3.1.</span> <span class="nav-text">陷阱一：社交单一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%B7%E9%98%B1%E4%BA%8C%EF%BC%9A%E5%BF%BD%E7%95%A5%E5%81%A5%E5%BA%B7"><span class="nav-number">3.2.</span> <span class="nav-text">陷阱二：忽略健康</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8B%E8%AF%84%E5%BB%BA%E8%AE%AE"><span class="nav-number">4.</span> <span class="nav-text">测评建议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%BB%A1%E8%B6%B3%E4%BD%A0%E7%9A%84%E9%9C%80%E6%B1%82"><span class="nav-number">4.1.</span> <span class="nav-text">如何满足你的需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E4%BD%A0%E7%9A%84%E9%9C%80%E6%B1%82%E9%99%B7%E9%98%B1"><span class="nav-number">4.2.</span> <span class="nav-text">避免你的需求陷阱</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="周国强"
+      src="/images/uparrow.jpg">
+  <p class="site-author-name" itemprop="name">周国强</p>
+  <div class="site-description" itemprop="description">勤学勤思出真知</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xsdjt" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xsdjt" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhouguoqiang2015@outlook.com" title="E-Mail → mailto:zhouguoqiang2015@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">周国强</span>
+</div>
+
+<!--添加运行时间-->
+<span id="sitetime"></span>
+<script language=javascript>
+	function siteTime(){
+		window.setTimeout("siteTime()", 1000);
+		var seconds = 1000;
+		var minutes = seconds * 60;
+		var hours = minutes * 60;
+		var days = hours * 24;
+		var years = days * 365;
+		var today = new Date();
+		var todayYear = today.getFullYear();
+		var todayMonth = today.getMonth()+1;
+		var todayDate = today.getDate();
+		var todayHour = today.getHours();
+		var todayMinute = today.getMinutes();
+		var todaySecond = today.getSeconds();
+		/* 
+      Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+      year - 作为date对象的年份，为4位年份值
+      month - 0-11之间的整数，做为date对象的月份
+      day - 1-31之间的整数，做为date对象的天数
+      hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+      minutes - 0-59之间的整数，做为date对象的分钟数
+      seconds - 0-59之间的整数，做为date对象的秒数
+      microseconds - 0-999之间的整数，做为date对象的毫秒数
+     */
+		var t1 = Date.UTC(2021,04,27,18,12,20); //北京时间2021-04-27 18:12:20
+		var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+		var diff = t2-t1;
+		var diffYears = Math.floor(diff/years);
+		var diffDays = Math.floor((diff/days)-diffYears*365);
+		var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+		var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+		var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+		if(0 == diffYears)
+		    document.getElementById("sitetime").innerHTML="已运行"+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+                else
+		    document.getElementById("sitetime").innerHTML="已运行"+diffYears+" 年 "+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+	}
+	siteTime();
+</script>
+<!--// 添加运行时间-->
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '68d16df1433acc6c052d',
+      clientSecret: '60478ee823859ddf4cdae47186eec88cbb5c9fc4',
+      repo        : 'xsdjt.github.io',
+      owner       : 'xsdjt',
+      admin       : ['xsdjt'],
+      id          : '6860d4651b59d970fcf8a3176df2a0db',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<!-- hexo injector body_end start -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-view"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-lib@0.11.6/dist/browser/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-base64@3.6.1/base64.min.js"></script>
+  <script>
+      // console.log(window.markmap);
+      const { Markmap, loadCSS, loadJS, loadPlugins } = window.markmap;
+      let Transformer = window.markmap.Transformer;
+      let transformer = new Transformer();
+
+      const mindmaps = document.querySelectorAll('.markmap-svg');
+      
+      for(const mindmap of mindmaps) {
+
+          //console.log(mindmap.innerHTML);
+          //let a=new Buffer(mindmap.innerHTML,'base64').toString(); //base64 decode
+
+          let mddata = Base64.decode(mindmap.innerHTML);
+          // console.log(mddata);
+
+          const { root, features } = transformer.transform(mddata);
+
+
+          // 1. load assets
+          const { styles, scripts } = transformer.getAssets();
+          if (styles) loadCSS(styles);
+          // if (scripts) loadJS(scripts);
+          if (scripts) loadJS(scripts, { getMarkmap: () => window.markmap });
+
+
+          Markmap.create(mindmap, null, root);
+      }
+  </script> <!-- hexo injector body_end end --></body>
+</html>
